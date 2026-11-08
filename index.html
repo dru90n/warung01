@@ -4,10 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Katalog & Order Digital - Demo Kuliner</title>
-  <!-- Tailwind CSS CDN untuk styling cepat & ringan -->
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Sembunyikan scrollbar untuk tampilan tab/kategori yang mulus */
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
@@ -26,7 +25,7 @@
         <div class="flex items-center space-x-2 mt-1 text-[10px] font-semibold text-green-700">
           <span class="bg-green-100 px-1.5 py-0.5 rounded">Halal</span>
           <span class="bg-green-100 px-1.5 py-0.5 rounded">Bisa COD</span>
-          <span class="bg-green-100 px-1.5 py-0.5 rounded">Siap Kirim</span>
+          <span class="bg-green-100 px-1.5 py-0.5 rounded">QRIS / Transfer</span>
         </div>
       </div>
     </div>
@@ -37,18 +36,15 @@
     
     <!-- Kategori Makanan -->
     <h2 class="font-bold text-sm text-gray-700 uppercase tracking-wider mb-2 mt-1">Makanan Utama</h2>
-    <div class="grid grid-cols-2 gap-3" id="menu-makanan">
-      <!-- Item Makanan di-render lewat JavaScript -->
-    </div>
+    <div class="grid grid-cols-2 gap-3" id="menu-makanan"></div>
 
     <!-- Kategori Minuman -->
     <h2 class="font-bold text-sm text-gray-700 uppercase tracking-wider mb-2 mt-6">Minuman</h2>
-    <div class="grid grid-cols-2 gap-3" id="menu-minuman">
-      <!-- Item Minuman di-render lewat JavaScript -->
-    </div>
+    <div class="grid grid-cols-2 gap-3" id="menu-minuman"></div>
 
   </main>
-<!-- 6. FOOTER / INFO AGENSI -->
+
+  <!-- 3. FOOTER -->
   <footer class="max-w-md mx-auto px-4 py-6 text-center text-xs text-gray-500 space-y-2 border-t mt-8 mb-16">
     <div class="font-medium text-gray-700">
       <p>🕒 Jam Buka: Setiap Hari (09.00 - 21.00 WIB)</p>
@@ -62,7 +58,8 @@
       </p>
     </div>
   </footer>
-  <!-- 3. STICKY CART BAR (MELAYANG DI BAWAH) -->
+
+  <!-- 4. STICKY CART BAR (MELAYANG DI BAWAH) -->
   <div id="sticky-cart" class="fixed bottom-0 left-0 right-0 z-20 p-3 hidden">
     <div class="max-w-md mx-auto">
       <button onclick="openModal()" class="w-full bg-green-600 hover:bg-green-700 active:scale-95 transition text-white font-bold py-3.5 px-4 rounded-xl shadow-lg flex justify-between items-center">
@@ -78,7 +75,7 @@
     </div>
   </div>
 
-  <!-- 4. MODAL CHECKOUT SINGKAT -->
+  <!-- 5. MODAL CHECKOUT DENGAN OPSI PEMBAYARAN -->
   <div id="checkout-modal" class="fixed inset-0 bg-black/60 z-30 hidden flex items-end justify-center sm:items-center p-0 sm:p-4">
     <div class="bg-white w-full max-w-md rounded-t-2xl sm:rounded-2xl p-5 space-y-4 max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center border-b pb-2">
@@ -87,20 +84,44 @@
       </div>
 
       <!-- Ringkasan Pesanan -->
-      <div class="bg-gray-50 p-3 rounded-lg border text-xs space-y-1" id="order-summary-list">
-        <!-- List ringkasan pesanan dimasukkan via JS -->
-      </div>
+      <div class="bg-gray-50 p-3 rounded-lg border text-xs space-y-1" id="order-summary-list"></div>
 
-      <!-- Form Data Pemesan -->
+      <!-- Form Data Pemesan & Pembayaran -->
       <form id="wa-form" onsubmit="sendToWhatsApp(event)" class="space-y-3">
         <div>
           <label class="block text-xs font-bold text-gray-700 mb-1">Nama Pemesan *</label>
           <input type="text" id="cust-name" required placeholder="Contoh: Budi" class="w-full border rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-green-500 outline-none">
         </div>
+        
         <div>
           <label class="block text-xs font-bold text-gray-700 mb-1">Alamat / Area Kirim *</label>
           <input type="text" id="cust-address" required placeholder="Contoh: Sawojajar, Jl. Danau Toba No. 12" class="w-full border rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-green-500 outline-none">
         </div>
+
+        <!-- FITUR OPSI PEMBAYARAN -->
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">Metode Pembayaran *</label>
+          <div class="grid grid-cols-3 gap-2">
+            <label class="border rounded-lg p-2 flex flex-col items-center justify-center cursor-pointer text-center hover:border-green-500 bg-gray-50 has-[:checked]:bg-green-50 has-[:checked]:border-green-600">
+              <input type="radio" name="payment_method" value="COD (Bayar di Tempat)" checked class="hidden">
+              <span class="text-lg mb-0.5">💵</span>
+              <span class="text-[11px] font-bold text-gray-700">COD</span>
+            </label>
+
+            <label class="border rounded-lg p-2 flex flex-col items-center justify-center cursor-pointer text-center hover:border-green-500 bg-gray-50 has-[:checked]:bg-green-50 has-[:checked]:border-green-600">
+              <input type="radio" name="payment_method" value="Transfer Bank (BCA/Mandiri)" class="hidden">
+              <span class="text-lg mb-0.5">🏦</span>
+              <span class="text-[11px] font-bold text-gray-700">Transfer</span>
+            </label>
+
+            <label class="border rounded-lg p-2 flex flex-col items-center justify-center cursor-pointer text-center hover:border-green-500 bg-gray-50 has-[:checked]:bg-green-50 has-[:checked]:border-green-600">
+              <input type="radio" name="payment_method" value="QRIS (Gopay/OVO/ShopeePay)" class="hidden">
+              <span class="text-lg mb-0.5">📱</span>
+              <span class="text-[11px] font-bold text-gray-700">QRIS</span>
+            </label>
+          </div>
+        </div>
+
         <div>
           <label class="block text-xs font-bold text-gray-700 mb-1">Catatan Pesanan (Opsional)</label>
           <input type="text" id="cust-note" placeholder="Contoh: Pedas sedang, bungkus pisah" class="w-full border rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-green-500 outline-none">
@@ -113,12 +134,10 @@
     </div>
   </div>
 
-  <!-- 5. JAVASCRIPT LOGIC -->
+  <!-- 6. JAVASCRIPT LOGIC -->
   <script>
-    // NOMOR WHATSAPP UMKM (Ganti dengan nomor tujuan)
     const TARGET_WA_NUMBER = "6281234567890";
 
-    // DATA MENU DUMMY (Mudah ditambah/diedit oleh siapapun)
     const menuData = [
       {
         id: "m1",
@@ -154,15 +173,12 @@
       }
     ];
 
-    // State Keranjang Belanja
     let cart = {};
 
-    // Helper Format Rupiah
     function formatRupiah(number) {
       return 'Rp ' + number.toLocaleString('id-ID');
     }
 
-    // Render Menu ke Halaman
     function renderMenu() {
       const makananContainer = document.getElementById('menu-makanan');
       const minumanContainer = document.getElementById('menu-minuman');
@@ -208,7 +224,6 @@
       updateStickyCart();
     }
 
-    // Update Qty Item
     function updateQty(id, change) {
       if (!cart[id]) cart[id] = 0;
       cart[id] += change;
@@ -216,7 +231,6 @@
       renderMenu();
     }
 
-    // Update Tampilan Bar Keranjang Melayang
     function updateStickyCart() {
       const stickyCart = document.getElementById('sticky-cart');
       const cartCountBadge = document.getElementById('cart-count-badge');
@@ -242,7 +256,6 @@
       }
     }
 
-    // Modal Control
     function openModal() {
       const modal = document.getElementById('checkout-modal');
       const summaryList = document.getElementById('order-summary-list');
@@ -268,12 +281,13 @@
       document.getElementById('checkout-modal').classList.add('hidden');
     }
 
-    // Format & Kirim ke WhatsApp
+    // Format & Kirim ke WhatsApp (Include Metode Pembayaran)
     function sendToWhatsApp(e) {
       e.preventDefault();
 
       const name = document.getElementById('cust-name').value;
       const address = document.getElementById('cust-address').value;
+      const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
       const note = document.getElementById('cust-note').value;
 
       let itemLines = [];
@@ -292,6 +306,7 @@
       text += `\n\n*Total: ${formatRupiah(total)}*`;
       text += `\n\n*Nama:* ${name}`;
       text += `\n*Alamat/Area:* ${address}`;
+      text += `\n*Pembayaran:* ${paymentMethod}`;
       if (note) text += `\n*Catatan:* ${note}`;
 
       const encodedText = encodeURIComponent(text);
@@ -300,7 +315,6 @@
       window.open(waUrl, '_blank');
     }
 
-    // Initial Render
     renderMenu();
   </script>
 </body>
